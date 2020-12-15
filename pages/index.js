@@ -1,65 +1,61 @@
+import { useState } from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+
+import { uploadImage } from '../services/uploadimage'
+import { formDataFactory } from '../helpers/factories'
+import { DEFAULT_IMAGE } from '../assets/defaultImage'
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    const [image, setImage] = useState('')
+    const [imageUrl, setImageUrl] = useState(DEFAULT_IMAGE)
+    const [loading, setLoading] = useState(false)
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+    function handleOnChange(e) {
+        setImage(e.target.files[0])
+    }
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+    async function handleUploadImage() {
+        setLoading(true)
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+        const formData = formDataFactory(image, 'reactupload')
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+        const response = await uploadImage(formData)
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+        const imgUrl = response.data.data.secure_url
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        alert('Upload realizado com sucesso')
+        setImage('')
+        setImageUrl(imgUrl)
+        setLoading(false)
+        return
+    }
+
+    return (
+        <div className="home">
+            <Head>
+                <title>Cloudinary Image Upload</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            {loading ? (
+                <h1>Carregando</h1>
+            ) : (
+                <>
+                    <div>
+                        <h1>Image input upload</h1>
+                        <label id="thumbnail">
+                            <input type="file" onChange={handleOnChange} />
+                            {image ? (
+                                <button onClick={handleUploadImage}>
+                                    Enviar
+                                </button>
+                            ) : (
+                                'Selecionar Imagem'
+                            )}
+                        </label>
+                    </div>
+                    <img src={imageUrl} />
+                </>
+            )}
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+    )
 }

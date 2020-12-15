@@ -1,16 +1,80 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+    width: 100vw;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+.home {
+    background: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home div h1 {
+    text-align: center;
+}
+
+.home div label {
+    cursor: pointer;
+
+    background: rgb(233, 233, 233);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+
+    height: 100px;
+    width: 500px;
+}
+
+.home div label input {
+    display: none;
+}
+
+.home button {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    background: rgb(150, 150, 150);
+    width: 100%;
+    height: 100%;
+
+    color: white;
+    font-size: 18px;
+}
+
+.home p {
+    margin-top: 30px;
+    align-self: flex-start;
+    font-size: 12px;
+}
+
+.home img {
+    padding: 0;
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
 }
